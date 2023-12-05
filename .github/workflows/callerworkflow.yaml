@@ -1,0 +1,56 @@
+name: CallerWorkFlow
+on:
+  workflow_dispatch:
+    inputs: # when you invoke this parameters will be provided as inputs
+      calledworkflow_name:
+        description: 'Called workflow Name for Triggering'
+        required: true
+        default: 'CalledWorkflow'
+
+      calledworkflow_github_account:
+        description: 'GitHub Account Owner'
+        required: true
+        default: 'ashrafalih'
+
+      calledworkflow_repo_github:
+        description: 'Github Reposiory name'
+        required: true
+        default: 'calledrepo'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: # to get the permissions to invoke the other workflow we need PAT token, that i am setting as the env
+      pat_token: ${{ secrets.PAT_TOKEN_GITHUB }}
+      parameter1: '1234'
+      parameter2: 'helloashrafthisistest'
+
+    steps:
+      - uses: actions/checkout@v3 #doing checkout
+      
+      - name: setup python
+        uses: actions/setup-python@v2 # installing the python after checkout
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          cd "$GITHUB_WORKSPACE/PythonScripts/"
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # installing the request module, to invoke the apis we need that/prerequresites installing with requirements.txt
+          # exit 1  # I am testing, intentionally make the step fail(it's working as expected)
+          
+      # I can provide the Other steps in my workflow
+      
+      - name: Trigger the workflow
+        if: success()
+        run: |
+          cd "$GITHUB_WORKSPACE/PythonScripts/"
+          python $GITHUB_WORKSPACE/PythonScripts/triggerscripts.py ${{ env.pat_token }}  ${{ github.event.inputs.CalledWorkflow_github_account}}  ${{ github.event.inputs.CalledWorkflow_repo_github}} ${{ github.event.inputs.calledworkflow_name}} ${{ env.parameter1 }} ${{ env.parameter2 }}
+          # provided the file path along with the parameters for the python script to run
+          
+      
+    
+      
+
+    
