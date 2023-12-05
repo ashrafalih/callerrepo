@@ -24,7 +24,7 @@ jobs:
       pat_token: ${{ secrets.PAT_TOKEN_GITHUB }}
       parameter1: '1234'
       parameter2: 'helloashrafthisistest'
-      image_name_tag: ''
+      # image_name_tag: ''
 
     steps:
       - uses: actions/checkout@v3 #doing checkout
