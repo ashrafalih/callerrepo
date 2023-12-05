@@ -46,11 +46,14 @@ jobs:
         run: echo "::set-output name=image_tag::my_testapp_nov:$(date +%Y%m%d%H%M%S)"
 
       - name: Build and Tag Docker Image
+        id: build_and_tag
         run: |
           docker build . --file Dockerfile --tag ${{ steps.set_image_tag.outputs.image_tag }}
           docker images
-          echo "image_name_tag=${{ steps.set_image_tag.outputs.image_tag }}" >> $GITHUB_ENV
-          echo "Image Name Tag: ${{ steps.set_image_tag.outputs.image_tag }}"  # it will print the image tag value
+          echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
+          
+          # echo "image_name_tag=${{ steps.set_image_tag.outputs.image_tag }}" >> $GITHUB_ENV
+          # echo "Image Name Tag: ${{ steps.set_image_tag.outputs.image_tag }}"  # it will print the image tag value
           echo "*****Environment Variables:"
           env
           # docker push ${{ steps.set_image_tag.outputs.image_tag }}
