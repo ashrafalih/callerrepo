@@ -39,6 +39,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt # installing the request module, to invoke the apis we need that/prerequresites installing with requirements.txt
           # exit 1  # I am testing, intentionally make the step fail(it's working as expected)
+      
+      - name: Set Image Tag
+        id: set_image_tag
+        run: echo "::set-output name=image_tag::my_testapp_nov:$(date +%s)"
+
+      - name: Build and Tag Docker Image
+        run: |
+          docker build . --file Dockerfile --tag ${{ steps.set_image_tag.outputs.image_tag }}
+          # docker push ${{ steps.set_image_tag.outputs.image_tag }}
           
       # I can provide the Other steps in my workflow
       
