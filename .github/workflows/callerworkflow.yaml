@@ -42,7 +42,7 @@ jobs:
       
       - name: Set Image Tag
         id: set_image_tag
-        run: echo "::set-output name=image_tag::my_testapp_nov:$(date +%s)"
+        run: echo "::set-output name=image_tag::my_testapp_nov:$(date +%Y%m%d%H%M%S)"
 
       - name: Build and Tag Docker Image
         run: |
