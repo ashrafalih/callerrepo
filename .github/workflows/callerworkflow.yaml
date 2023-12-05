@@ -24,6 +24,7 @@ jobs:
       pat_token: ${{ secrets.PAT_TOKEN_GITHUB }}
       parameter1: '1234'
       parameter2: 'helloashrafthisistest'
+      image_name_tag: ''
 
     steps:
       - uses: actions/checkout@v3 #doing checkout
@@ -48,6 +49,9 @@ jobs:
         run: |
           docker build . --file Dockerfile --tag ${{ steps.set_image_tag.outputs.image_tag }}
           docker images
+          echo "image_name_tag=${{ steps.set_image_tag.outputs.image_tag }}" >> $GITHUB_ENV
+          echo "Image Name Tag: ${{ steps.set_image_tag.outputs.image_tag }}"  # it will print the image tag value
+          echo $image_name_tag
           # docker push ${{ steps.set_image_tag.outputs.image_tag }}
           
       # I can provide the Other steps in my workflow
