@@ -41,26 +41,46 @@ jobs:
           pip install -r requirements.txt # installing the request module, to invoke the apis we need that/prerequresites installing with requirements.txt
           # exit 1  # I am testing, intentionally make the step fail(it's working as expected)
       
+      # - name: Set Image Tag
+      #   id: set_image_tag
+      #   run: echo "::set-output name=image_tag::my_testapp_nov:$(date +%Y%m%d%H%M%S)"
+
+      # - name: Build and Tag Docker Image
+      #   id: build_and_tag
+      #   run: |
+      #     docker build . --file Dockerfile --tag ${{ steps.set_image_tag.outputs.image_tag }}
+      #     docker images
+      #     # echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
+      #     # echo "image_name_tag=${{ steps.set_image_tag.outputs.image_tag }}" >> $GITHUB_ENV
+      #     # echo "Image Name Tag: ${{ steps.set_image_tag.outputs.image_tag }}"  # it will print the image tag value
+      #     echo "*****Environment Variables:"
+      #     # env
+      #     # docker push ${{ steps.set_image_tag.outputs.image_tag }}
+      # - name: Set Image Tag Output
+      #   run: |
+      #     echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
+      #     env
+
       - name: Set Image Tag
         id: set_image_tag
-        run: echo "::set-output name=image_tag::my_testapp_nov:$(date +%Y%m%d%H%M%S)"
+        run: echo "image_tag=my_testapp_nov:$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
       - name: Build and Tag Docker Image
         id: build_and_tag
         run: |
-          docker build . --file Dockerfile --tag ${{ steps.set_image_tag.outputs.image_tag }}
+          docker build . --file Dockerfile --tag ${{ env.image_tag }}
           docker images
-          # echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
-          # echo "image_name_tag=${{ steps.set_image_tag.outputs.image_tag }}" >> $GITHUB_ENV
-          # echo "Image Name Tag: ${{ steps.set_image_tag.outputs.image_tag }}"  # it will print the image tag value
-          echo "*****Environment Variables:"
-          # env
-          # docker push ${{ steps.set_image_tag.outputs.image_tag }}
+
+      - name: Save Image Tag to File
+        run: echo "${{ env.image_tag }}" > image_tag.txt
+
       - name: Set Image Tag Output
+        run: echo "image_name_tag=${{ env.image_tag }}" >> $GITHUB_ENV
+
+      - name: Verify Environment Variables
         run: |
-          echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
+          echo "Environment Variables:"
           env
-        
           
       # I can provide the Other steps in my workflow
       
