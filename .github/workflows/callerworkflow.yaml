@@ -50,13 +50,17 @@ jobs:
         run: |
           docker build . --file Dockerfile --tag ${{ steps.set_image_tag.outputs.image_tag }}
           docker images
-          echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
-          
+          # echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
           # echo "image_name_tag=${{ steps.set_image_tag.outputs.image_tag }}" >> $GITHUB_ENV
           # echo "Image Name Tag: ${{ steps.set_image_tag.outputs.image_tag }}"  # it will print the image tag value
           echo "*****Environment Variables:"
-          env
+          # env
           # docker push ${{ steps.set_image_tag.outputs.image_tag }}
+      - name: Set Image Tag Output
+        run: |
+          echo "image_name_tag=${{ steps.build_and_tag.outputs.image_tag }}" >> $GITHUB_ENV
+          env
+        
           
       # I can provide the Other steps in my workflow
       
