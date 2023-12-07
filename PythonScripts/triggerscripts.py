@@ -11,10 +11,11 @@ parameter2 = str(sys.argv[6])
 # adding below extra line for testing 
 image_name_tag = str(sys.argv[7])
 branch_name = os.getenv('GITHUB_REF').split('/')[-1]
+values_yaml_path = os.getenv('values_yaml_path')
 
 print("The token value is")
 
-def trigger_workflow(workflow_name, parameter1, parameter2, image_name_tag, branch_name):
+def trigger_workflow(workflow_name, parameter1, parameter2, image_name_tag, branch_name, values_yaml_path):
     headers = {
         "Accept": "application/vnd.github.v3+json",
         "Authorization": f"token {TOKEN}",
@@ -26,7 +27,8 @@ def trigger_workflow(workflow_name, parameter1, parameter2, image_name_tag, bran
             'parameter1': parameter1,
             'parameter2': parameter2,
             'image_name_tag': image_name_tag,
-            'branch_name': branch_name
+            'branch_name': branch_name,
+            'values_yaml_path': values_yaml_path
         }
     }
 
@@ -36,4 +38,4 @@ def trigger_workflow(workflow_name, parameter1, parameter2, image_name_tag, bran
     # responseValue = requests.post(f"https://api.github.com/repos/{OWNER}/{REPO}/dispatches", json=data, headers=headers)
     print("The response message is ", responseValue.content)  
 
-trigger_workflow(Workflow_Name, parameter1, parameter2, image_name_tag, branch_name) 
+trigger_workflow(Workflow_Name, parameter1, parameter2, image_name_tag, branch_name, values_yaml_path) 
