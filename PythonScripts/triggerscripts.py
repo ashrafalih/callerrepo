@@ -11,7 +11,7 @@ parameter2 = str(sys.argv[6])
 # adding below extra line for testing 
 image_name_tag = str(sys.argv[7])
 branch_name = os.getenv('GITHUB_REF').split('/')[-1]
-values_yaml_path = os.str(sys.argv[8])
+values_yaml_path = str(sys.argv[8])
 
 print("The token value is")
 
