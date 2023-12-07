@@ -25,7 +25,7 @@ jobs:
       parameter1: '1234'
       parameter2: 'helloashrafthisistest'
       image_name_tag: ''
-      branch_name: ${{ github.head_ref }}
+      # branch_name: ${{ github.head_ref }}
 
     steps:
       - uses: actions/checkout@v3 #doing checkout
@@ -59,10 +59,10 @@ jobs:
       - name: Set Image Tag Output
         run: echo "image_name_tag=${{ env.image_tag }}" >> $GITHUB_ENV
 
-      - name: Set Branch Name
-        run: |
-          echo "branch_name=${{ env.branch_name }}" >> $GITHUB_ENV
-          echo $branch_name
+      # - name: Set Branch Name
+      #   run: |
+      #     echo "branch_name=${{ env.branch_name }}" >> $GITHUB_ENV
+      #     echo $branch_name
 
       - name: Verify Environment Variables
         run: |
@@ -75,7 +75,7 @@ jobs:
         if: success()
         run: |
           cd "$GITHUB_WORKSPACE/PythonScripts/"
-          python $GITHUB_WORKSPACE/PythonScripts/triggerscripts.py ${{ env.pat_token }}  ${{ github.event.inputs.CalledWorkflow_github_account}}  ${{ github.event.inputs.CalledWorkflow_repo_github}} ${{ github.event.inputs.calledworkflow_name}} ${{ env.parameter1 }} ${{ env.parameter2 }} ${{ env.image_name_tag }} ${{ env.branch_name }}
+          python $GITHUB_WORKSPACE/PythonScripts/triggerscripts.py ${{ env.pat_token }}  ${{ github.event.inputs.CalledWorkflow_github_account}}  ${{ github.event.inputs.CalledWorkflow_repo_github}} ${{ github.event.inputs.calledworkflow_name}} ${{ env.parameter1 }} ${{ env.parameter2 }} ${{ env.image_name_tag }} ${{ env.branch_name }} ${{ github.head_ref }}
           # provided the file path along with the parameters for the python script to run
           
       
