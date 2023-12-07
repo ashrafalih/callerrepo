@@ -68,6 +68,9 @@ jobs:
         run: |
           echo "Environment Variables:"
           env
+
+      - name: Set Values YAML Path
+        run: echo "values_yaml_path=$GITHUB_WORKSPACE/my_folder/values.yaml" >> $GITHUB_ENV
           
       # I can provide the Other steps in my workflow
       
@@ -75,7 +78,7 @@ jobs:
         if: success()
         run: |
           cd "$GITHUB_WORKSPACE/PythonScripts/"
-          python $GITHUB_WORKSPACE/PythonScripts/triggerscripts.py ${{ env.pat_token }}  ${{ github.event.inputs.CalledWorkflow_github_account}}  ${{ github.event.inputs.CalledWorkflow_repo_github}} ${{ github.event.inputs.calledworkflow_name}} ${{ env.parameter1 }} ${{ env.parameter2 }} ${{ env.image_name_tag }} ${{ env.branch_name }} ${{ github.head_ref }}
+          python $GITHUB_WORKSPACE/PythonScripts/triggerscripts.py ${{ env.pat_token }}  ${{ github.event.inputs.CalledWorkflow_github_account}}  ${{ github.event.inputs.CalledWorkflow_repo_github}} ${{ github.event.inputs.calledworkflow_name}} ${{ env.parameter1 }} ${{ env.parameter2 }} ${{ env.image_name_tag }} ${{ env.branch_name }} ${{ github.head_ref }} ${{ env.values_yaml_path }}
           # provided the file path along with the parameters for the python script to run
           
       
