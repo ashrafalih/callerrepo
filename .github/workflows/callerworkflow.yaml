@@ -26,7 +26,7 @@ jobs:
       parameter2: 'helloashrafthisistest'
       image_name_tag: ''
       # branch_name: ${{ github.head_ref }}
-      values_yaml_path: my_floder/ # here we have to provide the path
+      values_yaml_path: '$GITHUB_WORKSPACE/my_floder/' # here we have to provide the path
 
     steps:
       - uses: actions/checkout@v3 #doing checkout
@@ -70,8 +70,8 @@ jobs:
           echo "Environment Variables:"
           env
           
-      - name: Set Values YAML Path
-        run: echo "values_yaml_path=${{ values_yaml_path }}" >> $GITHUB_ENV
+      # - name: Set Values YAML Path
+      #   run: echo "values_yaml_path=${{ values_yaml_path }}" >> $GITHUB_ENV
           
       # I can provide the Other steps in my workflow
       
